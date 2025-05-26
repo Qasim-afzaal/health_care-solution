@@ -96,8 +96,8 @@ class _AddManualAddresssBottomSheetState
                   GooglePlaceAutoCompleteTextField(
                     textEditingController: textController,
                     googleAPIKey: Platform.isAndroid
-                        ? "AIzaSyCmvyvZVBBPKogOY7d2U33oGjgvXhjrcPA"
-                        : "AIzaSyCmvyvZVBBPKogOY7d2U33oGjgvXhjrcPA",
+                        ? ""
+                        : "",
                     getPlaceDetailWithLatLng: (prediction) {
                       final lat = double.tryParse(prediction.lat ?? '');
                       final lng = double.tryParse(prediction.lng ?? '');
