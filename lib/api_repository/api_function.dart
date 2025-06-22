@@ -82,6 +82,7 @@ class APIFunction {
             withOutFormData: withOutFormData,
           )
           .timeout(const Duration(seconds: 120));
+      print(data);
       return response.data;
     } catch (e) {
       print("Patch API Call Error: $e");
