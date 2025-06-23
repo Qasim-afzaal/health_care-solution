@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 
 import 'package:intl/intl.dart';
 
+import 'package:veritey/core/constants/app_colors.dart';
+
 class Utils {
   changeStatusBarColor() {
     return SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
@@ -41,6 +43,51 @@ class Utils {
       return DateFormat("h:mm a").format(time);
     } catch (e) {
       return timeString;
+    }
+  }
+
+  Color getCategoryContainerColor(String category) {
+    switch (category) {
+      case "Mental Health Support":
+        return AppColors.greenCard.withOpacity(0.1);
+      case "Home Health & Elder Care":
+        return AppColors.blueCard.withOpacity(0.1);
+      case "Medical Care Coordination":
+        return AppColors.orangeCard.withOpacity(0.1);
+      case "Caregiver Support":
+        return AppColors.red.withOpacity(0.1);
+      default:
+        return AppColors.purpleColor.withOpacity(0.2);
+    }
+  }
+
+  Color getCategoryBorderColor(String category) {
+    switch (category) {
+      case "Mental Health Support":
+        return AppColors.primary;
+      case "Home Health & Elder Care":
+        return AppColors.blueCard.withOpacity(0.2);
+      case "Medical Care Coordination":
+        return AppColors.orangeCard.withOpacity(0.2);
+      case "Caregiver Support":
+        return AppColors.pinkColor.withOpacity(0.2);
+      default:
+        return AppColors.purpleColor.withOpacity(0.2);
+    }
+  }
+
+  String getCategoryImage(catogory) {
+    switch (catogory) {
+      case "Mental Health Support":
+        return "assets/images/neuro.png";
+      case "Home Health & Elder Care":
+        return "assets/images/hospital.png";
+      case "Medical Care Coordination":
+        return "assets/images/binocullar.png";
+      case "Caregiver Support":
+        return "assets/images/care_giver.png";
+      default:
+        return "assets/images/nurse.png";
     }
   }
 }
