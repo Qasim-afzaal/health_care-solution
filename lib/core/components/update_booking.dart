@@ -1,12 +1,10 @@
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 
-import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:google_places_flutter/google_places_flutter.dart';
 
+import 'package:veritey/core/components/custom_textfield.dart';
 import 'package:veritey/core/constants/app_colors.dart';
 import 'package:veritey/core/constants/imports.dart';
 import 'package:veritey/pages/schedule/schedule_page_controller.dart';
@@ -56,7 +54,7 @@ class _UpdateBookingBottomSheetState extends State<UpdateBookingBottomSheet> {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: SizedBox(
-        height: screenHeight * 0.78,
+        height: screenHeight * 0.77,
         child: SingleChildScrollView(
           child: Form(
             key: _formKey,
@@ -87,38 +85,13 @@ class _UpdateBookingBottomSheetState extends State<UpdateBookingBottomSheet> {
                     ],
                   ),
                   const SizedBox(height: 20),
-                  TextFormField(
+                  CustomGooglePlaceField(
                     controller: controller,
-                    decoration: InputDecoration(
-                      hintText: 'Enter the Location',
-                      prefixIcon: const Padding(
-                        padding: EdgeInsets.only(left: 12.0, right: 8.0),
-                        child: Icon(Icons.place_outlined,
-                            color: AppColors.primary),
-                      ),
-                      prefixIconConstraints: const BoxConstraints(
-                        minWidth: 40,
-                        minHeight: 40,
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20.0),
-                        borderSide: BorderSide.none,
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12.0),
-                        borderSide: BorderSide.none,
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12.0),
-                        borderSide: BorderSide.none,
-                      ),
-                      contentPadding: const EdgeInsets.symmetric(
-                        vertical: 12.0,
-                        horizontal: 16.0,
-                      ),
-                    ),
-                    onChanged: (value) {
-                      solutionCareController.selectedLocation.value = value;
+                    apiKey: Platform.isAndroid
+                        ? "AIzaSyCmvyvZVBBPKogOY7d2U33oGjgvXhjrcPA"
+                        : "AIzaSyCmvyvZVBBPKogOY7d2U33oGjgvXhjrcPA",
+                    onLocationSelected: (location) {
+                      solutionCareController.selectedLocation.value = location;
                     },
                   ),
                   const SizedBox(height: 30),
@@ -188,7 +161,6 @@ class _UpdateBookingBottomSheetState extends State<UpdateBookingBottomSheet> {
                     onPressed: () {
                       final location = controller.text;
                       final time = selectedTime;
-                      final date = selectedDate;
 
                       if (location.isEmpty) {
                         Get.snackbar('Error', 'Please select a location',
