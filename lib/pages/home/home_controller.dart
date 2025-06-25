@@ -78,13 +78,12 @@ class HomeController extends GetxController {
       );
 
       mainModel = LoginResponse.fromJson(data);
-      print(mainModel!.data!.location!.address);
-      print(mainModel!.data!.username);
 
       if (mainModel!.success!) {
         getStorageData.saveLoginData(mainModel!);
         address.value =
-            getStorageData.readLoginData().data?.location?.address ?? "";
+            getStorageData.readLoginData().data?.location?.locationAddress ??
+                "";
 
         update();
         Get.back();
