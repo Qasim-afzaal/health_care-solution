@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 import 'package:veritey/core/constants/imports.dart';
 import 'package:veritey/pages/chat/chat.dart';
 import 'package:veritey/pages/dashboard/dashboard_controller.dart';
@@ -24,7 +22,7 @@ class DashboardPage extends StatelessWidget {
           body: LazyIndexedStack(
             index: controller.currentIndex,
             children: [
-              HomePage(),
+              const HomePage(),
               SchedulePage(),
               SolutionCare(),
               const ChatPage(),
