@@ -19,7 +19,7 @@ class LoginController extends GetxController {
   TextEditingController passwordController = TextEditingController();
 
   bool isLoading = false;
-  bool rememberMe = false; // Added remember me state
+  bool rememberMe = false;
   String? errorMessage;
 
   Future<bool> login() async {
