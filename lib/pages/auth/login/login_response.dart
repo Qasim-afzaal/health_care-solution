@@ -6,27 +6,35 @@ class LoginResponse {
   LoginResponse({this.success, this.message, this.data});
 
   LoginResponse.fromJson(Map<String, dynamic> json) {
-    success = json['success'];
-    message = json['message'];
-    data = json['data'] != null ? Data.fromJson(json['data']) : null;
+    success = json.containsKey('success') ? json['success'] : null;
+    message = json.containsKey('message') ? json['message'] : null;
+    data = json.containsKey('data') && json['data'] != null
+        ? Data.fromJson(json['data'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['success'] = success;
-    data['message'] = message;
-    if (this.data != null) {
-      data['data'] = this.data!.toJson();
-    }
-    return data;
+    return {
+      'success': success,
+      'message': message,
+      'data': data?.toJson(),
+    };
   }
 }
 
 class Data {
   String? id;
   String? email;
-  String? phoneNo;
   String? username;
+  String? phoneNo;
+  String? profileImage;
+  String? dob;
+  String? gender;
+  String? nationality;
+  String? address;
+  String? country;
+  String? firstName;
+  String? lastName;
   String? createdAt;
   String? updatedAt;
   String? role;
@@ -36,8 +44,16 @@ class Data {
   Data({
     this.id,
     this.email,
-    this.phoneNo,
     this.username,
+    this.phoneNo,
+    this.profileImage,
+    this.dob,
+    this.gender,
+    this.nationality,
+    this.address,
+    this.country,
+    this.firstName,
+    this.lastName,
     this.createdAt,
     this.updatedAt,
     this.role,
@@ -46,24 +62,43 @@ class Data {
   });
 
   Data.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    email = json['email'];
-    phoneNo = json['phone_no'];
-    username = json['username'];
-    createdAt = json['createdAt'];
-    updatedAt = json['updatedAt'];
-    role = json['role'];
-    accessToken = json['access_token'];
-    location =
-        json['location'] != null ? Location.fromJson(json['location']) : null;
+    id = json.containsKey('id') ? json['id'] : null;
+    email = json.containsKey('email') ? json['email'] : null;
+    username = json.containsKey('username') ? json['username'] : null;
+    phoneNo = json.containsKey('phone_no') ? json['phone_no'] : null;
+    profileImage =
+        json.containsKey('profile_image') ? json['profile_image'] : null;
+    dob = json.containsKey('dob') ? json['dob'] : null;
+    gender = json.containsKey('gender') ? json['gender'] : null;
+    nationality = json.containsKey('nationality') ? json['nationality'] : null;
+    address = json.containsKey('address') ? json['address'] : null;
+    country = json.containsKey('country') ? json['country'] : null;
+    firstName = json.containsKey('first_name') ? json['first_name'] : null;
+    lastName = json.containsKey('last_name') ? json['last_name'] : null;
+    createdAt = json.containsKey('createdAt') ? json['createdAt'] : null;
+    updatedAt = json.containsKey('updatedAt') ? json['updatedAt'] : null;
+    role = json.containsKey('role') ? json['role'] : null;
+    accessToken =
+        json.containsKey('access_token') ? json['access_token'] : null;
+    location = json.containsKey('location') && json['location'] != null
+        ? Location.fromJson(json['location'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
     return {
       'id': id,
       'email': email,
-      'phone_no': phoneNo,
       'username': username,
+      'phone_no': phoneNo,
+      'profile_image': profileImage,
+      'dob': dob,
+      'gender': gender,
+      'nationality': nationality,
+      'address': address,
+      'country': country,
+      'first_name': firstName,
+      'last_name': lastName,
       'createdAt': createdAt,
       'updatedAt': updatedAt,
       'role': role,
@@ -74,23 +109,44 @@ class Data {
 }
 
 class Location {
-  String? address;
-  double? latitude;
-  double? longitude;
+  String? id;
+  String? lat;
+  String? long;
+  String? locationAddress;
+  String? userId;
+  String? createdAt;
+  String? updatedAt;
 
-  Location({this.address, this.latitude, this.longitude});
+  Location({
+    this.id,
+    this.lat,
+    this.long,
+    this.locationAddress,
+    this.userId,
+    this.createdAt,
+    this.updatedAt,
+  });
 
   Location.fromJson(Map<String, dynamic> json) {
-    address = json['location_address'];
-    latitude = json['latitude']?.toDouble();
-    longitude = json['longitude']?.toDouble();
+    id = json.containsKey('id') ? json['id'] : null;
+    lat = json.containsKey('lat') ? json['lat'] : null;
+    long = json.containsKey('long') ? json['long'] : null;
+    locationAddress =
+        json.containsKey('location_address') ? json['location_address'] : null;
+    userId = json.containsKey('user_id') ? json['user_id'] : null;
+    createdAt = json.containsKey('createdAt') ? json['createdAt'] : null;
+    updatedAt = json.containsKey('updatedAt') ? json['updatedAt'] : null;
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'location_address': address,
-      'latitude': latitude,
-      'longitude': longitude,
+      'id': id,
+      'lat': lat,
+      'long': long,
+      'location_address': locationAddress,
+      'user_id': userId,
+      'createdAt': createdAt,
+      'updatedAt': updatedAt,
     };
   }
 }
