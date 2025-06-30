@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:veritey/core/Utils/utils.dart';
+import 'package:veritey/core/components/reschedule_bottom_sheet.dart';
 import 'package:veritey/core/components/update_booking.dart';
 import 'package:veritey/core/constants/app_colors.dart';
 import 'package:veritey/core/constants/imports.dart';
@@ -121,6 +124,7 @@ class AppointmentCard extends StatelessWidget {
   Widget _buildPersonImage() {
     return PersonAvatarWithCategory(
       category: appointment.category?.name ?? "",
+      status: appointment.appointmentStatus ?? "",
     );
   }
 
@@ -155,7 +159,7 @@ class AppointmentCard extends StatelessWidget {
       case "Upcoming":
         return _buildUpcomingActions();
       case "Completed":
-        return _buildCompletedActions();
+        return _buildCompletedActions(context);
       default:
         return _buildPendingActions(context);
     }
@@ -217,11 +221,21 @@ class AppointmentCard extends StatelessWidget {
     );
   }
 
-  Widget _buildCompletedActions() {
+  Widget _buildCompletedActions(BuildContext context) {
+    final SolutionCareController solutionCareController =
+        Get.put(SolutionCareController());
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: AppButton.outline(
-        onPressed: () {},
+        onPressed: () {
+          var time = Utils().formatAppointmentTime(appointment.fromTime);
+          solutionCareController.time.value = time;
+          var location = appointment.address;
+          solutionCareController.location.value = location ?? "";
+          solutionCareController.selectedLocation.value = location ?? "";
+          solutionCareController.id.value = appointment.category!.id ?? "";
+          _scheduleAgainBottomSheet(context);
+        },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -242,6 +256,14 @@ class AppointmentCard extends StatelessWidget {
     );
   }
 
+  void _scheduleAgainBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (context) => const RescheduleBookingBottomSheet(),
+    );
+  }
+
   Widget _buildPendingActions(BuildContext context) {
     final SolutionCareController solutionCareController =
         Get.put(SolutionCareController());
@@ -251,7 +273,7 @@ class AppointmentCard extends StatelessWidget {
         Expanded(
           child: AppButton.outline(
             onPressed: () {
-              schedulePageController.cancelApi(appointment.id ?? "");
+              _showCancelConfirmationDialog(context, appointment.id ?? "");
             },
             child: Text(
               "Cancel",
@@ -297,6 +319,71 @@ class AppointmentCard extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+
+  void _showCancelConfirmationDialog(
+      BuildContext context, String appointmentId) {
+    if (Platform.isIOS) {
+      showCupertinoDialog(
+        context: context,
+        builder: (context) => CupertinoAlertDialog(
+          title: Text(
+            "Cancel Appointment",
+            style: GoogleFonts.plusJakartaSans(
+              fontWeight: FontWeight.w700,
+              fontSize: 18,
+            ),
+          ),
+          content: Padding(
+            padding: const EdgeInsets.only(top: 8),
+            child: Text(
+              "Are you sure you want to cancel this appointment?",
+              style: GoogleFonts.plusJakartaSans(fontSize: 14),
+            ),
+          ),
+          actions: [
+            CupertinoDialogAction(
+              onPressed: () => Navigator.pop(context),
+              child: Text("No"),
+            ),
+            CupertinoDialogAction(
+              isDestructiveAction: true,
+              onPressed: () {
+                Navigator.pop(context);
+                schedulePageController.cancelApi(appointmentId);
+              },
+              child: Text("Yes, Cancel"),
+            ),
+          ],
+        ),
+      );
+    } else {
+      _showMaterialCancelDialog(context, appointmentId);
+    }
+  }
+
+  void _showMaterialCancelDialog(BuildContext context, String appointmentId) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text("Cancel Appointment"),
+        content:
+            const Text("Are you sure you want to cancel this appointment?"),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text("No"),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              schedulePageController.cancelApi(appointmentId);
+            },
+            child: const Text("Yes, Cancel"),
+          ),
+        ],
+      ),
     );
   }
 
@@ -436,40 +523,62 @@ class AppointmentStatusTag extends StatelessWidget {
 
 class PersonAvatarWithCategory extends StatelessWidget {
   final String category;
+  final String status;
 
-  const PersonAvatarWithCategory({super.key, required this.category});
+  const PersonAvatarWithCategory(
+      {super.key, required this.category, required this.status});
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      clipBehavior: Clip.none,
-      alignment: Alignment.center,
-      children: [
-        Container(
-          width: 65,
-          height: 60,
-          decoration: BoxDecoration(
-            color: AppColors.fieldColor,
-            borderRadius: BorderRadius.circular(15),
-          ),
-          child: const Icon(Icons.person, color: AppColors.primary, size: 30),
-        ),
-        Positioned(
-          bottom: -12,
-          child: Container(
-            height: 29,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10),
+    return status == "pending"
+        ? Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              height: 50,
+              decoration: BoxDecoration(
+                border: Border.all(color: AppColors.fieldColor),
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: Image.asset(
+                  _getCategoryImage(),
+                  scale: 2,
+                ),
+              ),
             ),
-            child: Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: Image.asset(_getCategoryImage()),
-            ),
-          ),
-        ),
-      ],
-    );
+          )
+        : Stack(
+            clipBehavior: Clip.none,
+            alignment: Alignment.center,
+            children: [
+              Container(
+                width: 65,
+                height: 60,
+                decoration: BoxDecoration(
+                  color: AppColors.fieldColor,
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: const Icon(Icons.person,
+                    color: AppColors.primary, size: 30),
+              ),
+              Positioned(
+                bottom: -12,
+                child: Container(
+                  height: 29,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: Image.asset(_getCategoryImage()),
+                  ),
+                ),
+              ),
+            ],
+          );
   }
 
   String _getCategoryImage() {
@@ -482,6 +591,8 @@ class PersonAvatarWithCategory extends StatelessWidget {
         return "assets/images/binocullar.png";
       case "Caregiver Support":
         return "assets/images/care_giver.png";
+      case "Individual Intellectual Disability":
+        return "assets/images/disable.png";
       default:
         return "assets/images/nurse.png";
     }
