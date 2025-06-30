@@ -34,6 +34,10 @@ class SolutionCare extends StatelessWidget {
       'imagePath': 'assets/images/nurse.png',
       'backgroundColor': 'assets/images/on_demand_b.png',
     },
+    'Individual Intellectual Disability': {
+      'imagePath': 'assets/images/disable.png',
+      'backgroundColor': 'assets/images/disable_bc.png',
+    },
   };
 
   @override
@@ -124,6 +128,14 @@ class SolutionCare extends StatelessWidget {
                                             case 'Caregiver Support':
                                               Get.toNamed(
                                                 Routes.CARE_GIVER,
+                                                arguments: {
+                                                  HttpUtil.id: service.id,
+                                                },
+                                              );
+                                              break;
+                                            case 'Individual Intellectual Disability':
+                                              Get.toNamed(
+                                                Routes.DISABLE,
                                                 arguments: {
                                                   HttpUtil.id: service.id,
                                                 },
