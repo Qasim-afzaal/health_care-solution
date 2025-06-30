@@ -44,6 +44,38 @@ class SolutionCareController extends GetxController {
     }
   }
 
+  Future<void> bookingRescheduleAppointment() async {
+    var json = {
+      "date": selectedDate.value.toIso8601String().split('T')[0],
+      "from_time": selectedTime.value,
+      "address": selectedLocation.value,
+      "categoryId": id.value
+    };
+    print(json);
+    final data = await APIFunction().apiCall(
+      apiName: "/appointment",
+      isLoading: true,
+      withOutFormData: jsonEncode(json),
+    );
+
+    try {
+      bookingResponse = BookingResponse.fromJson(data);
+
+      if (bookingResponse!.success) {
+        scheduleController.fetchAppointments();
+        homeController.fetchDashboardData();
+        Get.back();
+        update();
+      } else {
+        utils.showSnackBar(message: bookingResponse!.message);
+      }
+    } catch (e) {
+      ErrorResponse errorModel = ErrorResponse.fromJson(data);
+
+      utils.showSnackBar(message: errorModel.message!);
+    }
+  }
+
   Future<void> bookingAppointment() async {
     var json = {
       "date": selectedDate.value.toIso8601String().split('T')[0],
