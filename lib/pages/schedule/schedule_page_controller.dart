@@ -1,9 +1,4 @@
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
-import 'package:get/get_state_manager/src/simple/get_controllers.dart';
-
 import 'package:veritey/api_repository/api_function.dart';
-import 'package:veritey/core/constants/constants.dart';
 import 'package:veritey/core/constants/get_storage.dart';
 import 'package:veritey/core/constants/imports.dart';
 import 'package:veritey/pages/home/home_controller.dart';
@@ -35,13 +30,13 @@ class SchedulePageController extends GetxController {
 
   Future<void> cancelApi(String id) async {
     try {
-      print(id);
       final data = await APIFunction().patchApiCall(
-          isLoading: true,
-          token: GetStorageData().readLoginData().data?.accessToken,
-          apiName: "/appointment/cancel/${id}",
-          withOutFormData: {"reason": "User canceled manually"});
-      print(data["success"]);
+        isLoading: true,
+        token: GetStorageData().readLoginData().data?.accessToken,
+        apiName: "/appointment/cancel/${id}",
+        withOutFormData: {"reason": "User canceled manually"},
+      );
+
       if (data["success"] == true) {
         await fetchAppointments();
         homeController.fetchDashboardData();
