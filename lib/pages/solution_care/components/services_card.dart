@@ -36,7 +36,7 @@ class CustomCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 20),
+            const SizedBox(height: 10),
             Container(
               height: 55,
               decoration: BoxDecoration(
@@ -67,6 +67,8 @@ class CustomCard extends StatelessWidget {
                 Expanded(
                   child: Text(
                     description,
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.plusJakartaSans(
                       fontWeight: FontWeight.w500,
                       fontSize: 12,
