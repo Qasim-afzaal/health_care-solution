@@ -1,6 +1,6 @@
 import 'package:veritey/core/constants/imports.dart';
-import 'package:veritey/pages/all_chats/all_chat.dart';
-import 'package:veritey/pages/all_chats/all_chat_binding.dart';
+import 'package:veritey/pages/all_notifications/all_notification.dart';
+import 'package:veritey/pages/all_notifications/all_notification_binding.dart';
 import 'package:veritey/pages/auth/create_password/create_password.dart';
 import 'package:veritey/pages/auth/create_password/create_password_binding.dart';
 import 'package:veritey/pages/auth/enable_permission/enable_location_permission_screen.dart';
@@ -31,6 +31,8 @@ import 'package:veritey/pages/schedule/schedule_page_binding.dart';
 import 'package:veritey/pages/solution_care/care_giver/care_giver.dart';
 import 'package:veritey/pages/solution_care/care_giver/care_giver_binding.dart';
 import 'package:veritey/pages/solution_care/components/booking_page.dart';
+import 'package:veritey/pages/solution_care/disablity/disablity.dart';
+import 'package:veritey/pages/solution_care/disablity/disablity_binding.dart';
 import 'package:veritey/pages/solution_care/home_health/home_health.dart';
 import 'package:veritey/pages/solution_care/home_health/home_health_binding.dart';
 import 'package:veritey/pages/solution_care/medical_care/medical_care.dart';
@@ -116,6 +118,10 @@ class AppPages {
         page: () => OnDemandPage(),
         binding: OnDemandBinding()),
     GetPage(
+        name: _Paths.DISABLE,
+        page: () => DisablityPage(),
+        binding: DisablityBinding()),
+    GetPage(
         name: _Paths.BOOKING_PAGE,
         page: () => BookingPage(),
         binding: MentalHealthBinding()),
@@ -144,9 +150,9 @@ class AppPages {
         page: () => const SelectCountryScreen(),
         binding: SelectCountryScreenBinding()),
     GetPage(
-        name: _Paths.ALL_CHAT,
-        page: () => AllChatPage(),
-        binding: AllChatBinding()),
+        name: _Paths.ALL_NOTIFICATIONS,
+        page: () => AllNotificationPage(),
+        binding: AllNotificationBinding()),
     GetPage(
         name: _Paths.CREATE_PASSWORD,
         page: () => CreatePasswordPage(),
