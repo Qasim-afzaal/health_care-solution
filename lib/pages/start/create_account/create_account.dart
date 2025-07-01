@@ -41,7 +41,7 @@ class CreateAccountPage extends StatelessWidget {
                         Container(
                           color: Colors.transparent,
                           child: Center(
-                            child: LoadingAnimationWidget.prograssiveDots(
+                            child: LoadingAnimationWidget.progressiveDots(
                               color: AppColors.primary,
                               size: 50,
                             ),
