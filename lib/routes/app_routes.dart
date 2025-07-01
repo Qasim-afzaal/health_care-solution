@@ -34,6 +34,7 @@ abstract class Routes {
   static const PIN_SUCCESS = _Paths.PIN_SUCCESS;
   static const IMAGE_CHAT = _Paths.IMAGE_CHAT;
   static const ALL_CHAT = _Paths.ALL_CHAT;
+  static const ALL_NOTIFICATIONS = _Paths.ALL_NOTIFICATIONS;
   static const PROFILE = _Paths.PROFILE;
   static const MAINPAGE = _Paths.MAINPAGE;
   static const PICKUP_LINES = _Paths.PICKUP_LINES;
@@ -60,6 +61,7 @@ abstract class Routes {
   static const ON_DEMAND = _Paths.ON_DEMAND;
 
   static const BOOKING_PAGE = _Paths.BOOKING_PAGE;
+  static const DISABLE = _Paths.DISABLE;
 }
 
 abstract class _Paths {
@@ -110,6 +112,7 @@ abstract class _Paths {
   static const SELECTED_ADDRESS = '/address';
   static const SHEDULE = '/shed';
   static const ALL_CHAT = '/all_chat';
+  static const ALL_NOTIFICATIONS = '/all_notifications';
   static const CARE = '/care';
   static const CHAT_PAGE = '/chat_page';
   static const MENTAL_HEALTH = '/mental_health';
@@ -118,6 +121,7 @@ abstract class _Paths {
   static const CARE_GIVER = '/care_giver';
   static const ON_DEMAND = '/on_demand';
   static const PHONE = '/phone';
+  static const DISABLE = '/disable';
 
   static const BOOKING_PAGE = '/booking_page';
 
