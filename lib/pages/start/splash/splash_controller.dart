@@ -15,7 +15,8 @@ class SplashController extends GetxController {
     final loginData = getStorageData.readLoginData();
 
     if (loginData.data?.location != null) {
-      print(getStorageData.readLoginData().data?.location?.address ?? "");
+      print(
+          getStorageData.readLoginData().data?.location?.locationAddress ?? "");
       Get.offNamed(
         Routes.DASHBOARD,
         arguments: {HttpUtil.loginModel: loginData},
